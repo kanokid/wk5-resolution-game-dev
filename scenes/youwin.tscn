@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cwt2riqj8skvv"]
+
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1768638054]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=678501975]
+position = Vector2(577, 324)
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=635915655]
+offset_left = -10.0
+offset_top = -4.0
+offset_right = 1165.0
+offset_bottom = 654.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="." unique_id=813225236]
+offset_left = 109.0
+offset_top = 170.0
+offset_right = 1031.0
+offset_bottom = 443.0
+theme_override_font_sizes/font_size = 170
+text = "Game Over"
+
+[node name="Label2" type="Label" parent="." unique_id=2037870837]
+offset_left = 414.0
+offset_top = 400.0
+offset_right = 810.0
+offset_bottom = 537.0
+theme_override_font_sizes/font_size = 70
+text = "You Win!"
