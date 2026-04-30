@@ -23,3 +23,6 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 
 	move_and_slide()
+
+func boost_jump():
+	velocity.y = JUMP_VELOCITY * 1.5  # extra jump

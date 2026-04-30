@@ -5,6 +5,27 @@
 [ext_resource type="Script" uid="uid://btvlie5qdtoor" path="res://scripts/player.gd" id="3_nx3wj"]
 [ext_resource type="Texture2D" uid="uid://bnuqs3ahycu6" path="res://assets/flag.png" id="4_4c2fu"]
 [ext_resource type="Script" uid="uid://63iq7fwfru0f" path="res://scripts/api.gd" id="5_mo382"]
+[ext_resource type="PackedScene" uid="uid://yoyyo0f3dg2n" path="res://scenes/background.tscn" id="6_nshjd"]
+
+[sub_resource type="GDScript" id="GDScript_nshjd"]
+script/source = "extends Area2D
+
+func _ready() -> void:
+	# Connect the signal that detects when a body enters the area
+	body_entered.connect(_on_area_2d_body_entered)
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	# Check if the object that entered is the Player
+	if body.name == \"Player\":
+		game_over()
+
+func game_over() -> void:
+	print(\"Player entered the area! Transporting to Game Over scene...\")
+	get_tree().change_scene_to_file(\"res://scenes/youwin.tscn\")
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo382"]
+size = Vector2(29.5, 49.625)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4c2fu"]
 texture = ExtResource("1_golqe")
@@ -137,27 +158,24 @@ texture = ExtResource("1_golqe")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_4c2fu")
 
-[sub_resource type="GDScript" id="GDScript_nshjd"]
-script/source = "extends Area2D
-
-func _ready() -> void:
-	# Connect the signal that detects when a body enters the area
-	body_entered.connect(_on_area_2d_body_entered)
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	# Check if the object that entered is the Player
-	if body.name == \"Player\":
-		game_over()
-
-func game_over() -> void:
-	print(\"Player entered the area! Transporting to Game Over scene...\")
-	get_tree().change_scene_to_file(\"res://scenes/youwin.tscn\")
-"
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo382"]
-size = Vector2(31, 49.625)
-
 [node name="mainscene" type="Node" unique_id=818487545]
+
+[node name="Flag" type="Node2D" parent="." unique_id=1539651342]
+
+[node name="Sprite2D" type="Sprite2D" parent="Flag" unique_id=443240773]
+position = Vector2(-315, -411)
+texture = ExtResource("4_4c2fu")
+
+[node name="Area2D" type="Area2D" parent="Flag" unique_id=841876071]
+script = SubResource("GDScript_nshjd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Flag/Area2D" unique_id=578762513]
+position = Vector2(-314.75, -408)
+shape = SubResource("RectangleShape2D_mo382")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=284049156]
+tile_map_data = PackedByteArray("AAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAAJAP//AAAAAAAAAAAKAP//AAAAAAAAAAALAP//AAAAAAAAAAAPAP3/AAAAAAAAAAAQAP3/AAAAAAAAAAAUAPv/AAAAAAAAAAAVAPv/AAAAAAAAAAAWAPv/AAAAAAAAAAAXAPv/AAAAAAAAAAAYAPv/AAAAAAAAAAAdAPv/AAAAAAAAAAAeAPv/AAAAAAAAAAAgAPn/AAAAAAAAAAAhAPn/AAAAAAAAAAAiAPn/AAAAAAAAAAAkAPf/AAAAAAAAAAAlAPf/AAAAAAAAAAAmAPf/AAAAAAAAAAAoAPX/AAAAAAAAAAApAPX/AAAAAAAAAAAqAPX/AAAAAAAAAAAsAPL/AAAAAAAAAAArAPL/AAAAAAAAAAAnAPD/AAAAAAAAAAAmAPD/AAAAAAAAAAAlAPD/AAAAAAAAAAAhAO7/AAAAAAAAAAAgAO7/AAAAAAAAAAAfAO7/AAAAAAAAAAAbAOz/AAAAAAAAAAAaAOz/AAAAAAAAAAAZAOz/AAAAAAAAAAAUAOr/AAAAAAAAAAATAOr/AAAAAAAAAAARAOr/AAAAAAAAAAASAOr/AAAAAAAAAAANAO//AAAAAAAAAAAMAO//AAAAAAAAAAALAO//AAAAAAAAAAAHAPP/AAAAAAAAAAAGAPP/AAAAAAAAAAAFAPP/AAAAAAAAAAAEAPP/AAAAAAAAAAADAPP/AAAAAAAAAAAAAPH/AAAAAAAAAAD///H/AAAAAAAAAAD8/+//AAAAAAAAAAD7/+//AAAAAAAAAAD5/+3/AAAAAAAAAAD4/+3/AAAAAAAAAADy/+v/AAAAAAAAAADz/+v/AAAAAAAAAAD0/+v/AAAAAAAAAADv/+j/AAAAAAAAAADu/+j/AAAAAAAAAADt/+j/AAAAAAAAAADs/+j/AAAAAAAAAADr/+j/AAAAAAAAAADq/+j/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_mo382")
 
 [node name="Player" parent="." unique_id=218664485 instance=ExtResource("2_nx3wj")]
 position = Vector2(0, 6)
@@ -170,24 +188,14 @@ position_smoothing_enabled = true
 position_smoothing_speed = 6.0
 rotation_smoothing_speed = 6.0
 
-[node name="TileMapLayer" type="TileMapLayer" parent="." unique_id=284049156]
-tile_map_data = PackedByteArray("AAD//wEAAAAAAAAAAAAAAAEAAAAAAAAAAAAFAAEAAAAAAAAAAAAEAAEAAAAAAAAAAAAJAP//AAAAAAAAAAAKAP//AAAAAAAAAAALAP//AAAAAAAAAAAPAP3/AAAAAAAAAAAQAP3/AAAAAAAAAAAUAPv/AAAAAAAAAAAVAPv/AAAAAAAAAAAWAPv/AAAAAAAAAAAXAPv/AAAAAAAAAAAYAPv/AAAAAAAAAAAdAPv/AAAAAAAAAAAeAPv/AAAAAAAAAAAgAPn/AAAAAAAAAAAhAPn/AAAAAAAAAAAiAPn/AAAAAAAAAAAkAPf/AAAAAAAAAAAlAPf/AAAAAAAAAAAmAPf/AAAAAAAAAAAoAPX/AAAAAAAAAAApAPX/AAAAAAAAAAAqAPX/AAAAAAAAAAAsAPL/AAAAAAAAAAArAPL/AAAAAAAAAAAnAPD/AAAAAAAAAAAmAPD/AAAAAAAAAAAlAPD/AAAAAAAAAAAhAO7/AAAAAAAAAAAgAO7/AAAAAAAAAAAfAO7/AAAAAAAAAAAbAOz/AAAAAAAAAAAaAOz/AAAAAAAAAAAZAOz/AAAAAAAAAAAUAOr/AAAAAAAAAAATAOr/AAAAAAAAAAARAOr/AAAAAAAAAAASAOr/AAAAAAAAAAANAO//AAAAAAAAAAAMAO//AAAAAAAAAAALAO//AAAAAAAAAAAHAPP/AAAAAAAAAAAGAPP/AAAAAAAAAAAFAPP/AAAAAAAAAAAEAPP/AAAAAAAAAAADAPP/AAAAAAAAAAAAAPH/AAAAAAAAAAD///H/AAAAAAAAAAD8/+//AAAAAAAAAAD7/+//AAAAAAAAAAD5/+3/AAAAAAAAAAD4/+3/AAAAAAAAAADy/+v/AAAAAAAAAADz/+v/AAAAAAAAAAD0/+v/AAAAAAAAAADv/+j/AAAAAAAAAADu/+j/AAAAAAAAAADt/+j/AAAAAAAAAADs/+j/AAAAAAAAAADr/+j/AAAAAAAAAADq/+j/AAAAAAAAAAA=")
-tile_set = SubResource("TileSet_mo382")
-
-[node name="Flag" type="Node2D" parent="." unique_id=1539651342]
-
-[node name="Sprite2D" type="Sprite2D" parent="Flag" unique_id=443240773]
-position = Vector2(-315, -411)
-texture = ExtResource("4_4c2fu")
-
-[node name="Area2D" type="Area2D" parent="Flag" unique_id=841876071]
-script = SubResource("GDScript_nshjd")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Flag/Area2D" unique_id=578762513]
-position = Vector2(-314, -408)
-shape = SubResource("RectangleShape2D_mo382")
-
 [node name="API" type="Node" parent="." unique_id=1023342093]
 script = ExtResource("5_mo382")
 
-[node name="HTTPRequest" type="HTTPRequest" parent="API" unique_id=689214508]
+[node name="WordApiRequester" type="HTTPRequest" parent="API" unique_id=689214508]
+
+[node name="BackgroundRequester" type="HTTPRequest" parent="API" unique_id=779914506]
+
+[node name="BackgroundLayer" type="CanvasLayer" parent="." unique_id=1021738497]
+layer = -1
+
+[node name="Background" parent="BackgroundLayer" unique_id=2131666113 instance=ExtResource("6_nshjd")]

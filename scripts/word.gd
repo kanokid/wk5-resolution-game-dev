@@ -17,7 +17,9 @@ func _input(event):
 				# word typed correctly!
 				queue_free()  # Remove word
 				# maybe give player a boost or points
-				get_parent().get_node("Player").boost_jump()
+				var player = get_tree().current_scene.get_node("Player")
+				if player:
+					player.boost_jump()
 
 func update_display():
 	$Label.text = word.substr(typed.length())  # Show remaining letters

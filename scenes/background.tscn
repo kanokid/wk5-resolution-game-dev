@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://yoyyo0f3dg2n"]
+
+[node name="Background" type="Sprite2D"]
+position = Vector2(576, 324)
